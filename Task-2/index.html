@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intermediate HTML, CSS, and JavaScript</title>
+<style>
+    /* Global Styles */
+    body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+    color: #333;
+    }
+    header {
+    background: #2c3e50;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    }
+    nav {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    background: #34495e;
+    padding: 0.5rem;
+    }
+    nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    }
+    nav a:hover {
+    text-decoration: underline;
+    }
+
+    /* Layout with Grid */
+    main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 20px;
+    }
+    section {
+    background: rgb(199, 238, 237);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+
+    /* Contact Form Styles */
+    form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    }
+    input, textarea, button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    }
+    button {
+    background: #27ae60;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    transition: background 0.3s ease;
+    }
+    button:hover {
+    background: #219150;
+    }
+
+    /* To-Do List */
+    #todo-list ul {
+    list-style: none;
+    padding: 0;
+    }
+    #todo-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    background: #ecf0f1;
+    margin: 5px 0;
+    border-radius: 5px;
+    }
+    #todo-list li button {
+    background: #e74c3c;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    }
+    #todo-list li button:hover {
+    background: #c0392b;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+    main {
+        grid-template-columns: 1fr;
+    }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Intermediate HTML, CSS, and JavaScript</h1>
+</header>
+
+<nav>
+    <a href="#contact-form">Contact Form</a>
+    <a href="#todo-list">To-Do List</a>
+</nav>
+
+<main>
+    <!-- Contact Form Section -->
+    <section id="contact-form">
+    <h2>Contact Form</h2>
+    <form id="myForm">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="email" id="email" placeholder="Your Email" required>
+        <textarea id="message" rows="4" placeholder="Your Message" required></textarea>
+        <button type="submit">Submit</button>
+    </form>
+    <p id="formMessage"></p>
+    </section>
+
+    <!-- To-Do List Section -->
+    <section id="todo-list">
+    <h2>To-Do List</h2>
+    <input type="text" id="taskInput" placeholder="Enter a new task">
+    <button onclick="addTask()">Add Task</button>
+    <ul id="tasks"></ul>
+    </section>
+</main>
+
+<script>
+    // Form Validation
+    const form = document.getElementById("myForm");
+    const formMessage = document.getElementById("formMessage");
+
+    form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const message = document.getElementById("message").value.trim();
+
+    const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+    if (!name || !email || !message) {
+        formMessage.style.color = "red";
+        formMessage.textContent = "All fields are required!";
+    } else if (!email.match(emailPattern)) {
+        formMessage.style.color = "red";
+        formMessage.textContent = "Please enter a valid email address!";
+    } else {
+        formMessage.style.color = "green";
+        formMessage.textContent = "Form submitted successfully 🎉";
+        form.reset();
+    }
+    });
+
+    // To-Do List Functionality
+    function addTask() {
+    const taskInput = document.getElementById("taskInput");
+    const taskValue = taskInput.value.trim();
+    if (taskValue === "") return;
+
+    const li = document.createElement("li");
+    li.textContent = taskValue;
+
+    const removeBtn = document.createElement("button");
+    removeBtn.textContent = "Remove";
+    removeBtn.onclick = function() {
+        li.remove();
+    };
+
+    li.appendChild(removeBtn);
+    document.getElementById("tasks").appendChild(li);
+
+    taskInput.value = "";
+    }
+</script>
+
+</body>
+</html>
