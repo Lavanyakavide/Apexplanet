@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Styling & JavaScript</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+    header {
+        background: #4f4fd4;
+        color: #f8f9fa;
+        padding: 1rem;
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 1.8rem;
+    }
+
+    header p {
+        margin: 0.2rem 0 1rem;
+    }
+
+    nav {
+        margin-top: 10px;
+    }
+
+    nav a {
+        color: #f8f9fa;
+        text-decoration: none;
+        margin: 0 15px;
+        font-weight: bold;
+        transition: color 0.3s;
+    }
+
+    nav a:hover {
+        color: #00cfff;
+    }
+
+    main {
+        padding: 20px;
+    }
+
+    .quiz-container {
+        margin: 20px auto;
+        padding: 20px;
+        border: 2px solid #333;
+        border-radius: 10px;
+        max-width: 500px;
+        background: #fdfdfd;
+    }
+
+    button {
+        padding: 10px 20px;
+        margin: 10px;
+        border: none;
+        border-radius: 5px;
+        background: #0077cc; 
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+        background: #005fa3;
+        transform: scale(1.05);
+    }
+
+    button.secondary {
+        background: #28a745; 
+    }
+
+    button.secondary:hover {
+        background: #1e7e34;
+    }
+
+    @media screen and (max-width: 768px) {
+        body {
+            background-color: #f0f8ff;
+        }
+        header h1 {
+            font-size: 18px;
+        }
+        nav a {
+            display: block;
+            margin: 5px 0;
+        }
+    }
+
+    @media screen and (min-width: 769px) and (max-width: 1200px) {
+        body {
+            background-color: #e6ffe6;
+        }
+        header h1 {
+            font-size: 22px;
+        }
+    }
+
+    @media screen and (min-width: 1201px) {
+        body {
+            background-color: #fff5e6;
+        }
+        header h1 {
+            font-size: 26px;
+        }
+    }
+</style>
+</head>
+<body>
+<header>
+    <h1>Advanced Styling & JavaScript</h1>
+    <p>Responsive Page + Quiz + API</p>
+</header>
+
+<main>
+    
+    <section class="quiz-container">
+        <h2>Quick Quiz</h2>
+        <div id="quiz"></div>
+        <button onclick="submitQuiz()">Submit Quiz</button>
+    </section>
+
+    
+    <section>
+        <h2>Need a Joke?</h2>
+        <button class="secondary" onclick="getJoke()">Get Joke</button>
+        <p id="joke"></p>
+    </section>
+</main>
+
+<script>
+  
+    const questions = [
+        { q: "What is 2+2?", options: ["3", "4", "5"], answer: "4" },
+        { q: "Which is a fruit?", options: ["Carrot", "Apple", "Onion"], answer: "Apple" }
+    ];
+
+    function loadQuiz() {
+        let quizHTML = "";
+        questions.forEach((item, i) => {
+            quizHTML += `<p>${item.q}</p>`;
+            item.options.forEach(opt => {
+                quizHTML += `<label>
+                    <input type="radio" name="q${i}" value="${opt}"> ${opt}
+                </label><br>`;
+            });
+        });
+        document.getElementById("quiz").innerHTML = quizHTML;
+    }
+
+    function submitQuiz() {
+        let score = 0;
+        questions.forEach((item, i) => {
+            let answer = document.querySelector(`input[name="q${i}"]:checked`);
+            if (answer && answer.value === item.answer) score++;
+        });
+        alert(`Your score is ${score}/${questions.length}`);
+    }
+
+    loadQuiz();
+
+    async function getJoke() {
+        let res = await fetch("https://official-joke-api.appspot.com/random_joke");
+        let data = await res.json();
+        document.getElementById("joke").innerText = `${data.setup} - ${data.punchline}`;
+    }
+</script>
+</body>
+</html>
