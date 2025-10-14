@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🛒 Your Shopping Cart</h1>
+    <nav><a href="index.html">Back to Shop</a></nav>
+  </header>
+
+  <main id="cart-items" class="product-container"></main>
+  <div id="cart-total" style="text-align:center; font-size:1.2rem; margin:20px;"></div>
+
+  <footer><p>© 2025 ShopEase</p></footer>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const container = document.getElementById("cart-items");
+    const totalDiv = document.getElementById("cart-total");
+
+    function displayCart() {
+      if(cart.length === 0) {
+        container.innerHTML = "<h2>Your cart is empty!</h2>";
+        totalDiv.innerHTML = "";
+        return;
+      }
+
+      container.innerHTML = "";
+      let total = 0;
+      cart.forEach((item, index) => {
+        total += item.price;
+        container.innerHTML += `
+          <div class="product">
+            <img src="${item.img}" alt="${item.name}">
+            <h3>${item.name}</h3>
+            <p>₹${item.price}</p>
+            <button onclick="removeFromCart(${index})">Remove</button>
+          </div>
+        `;
+      });
+      totalDiv.innerHTML = <h3>Total: ₹${total}</h3>;
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      displayCart();
+      alert("Item removed from cart!");
+    }
+
+    displayCart();
+  </script>
+</body>
+</html>
+                                                        
